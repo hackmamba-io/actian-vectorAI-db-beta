@@ -7,7 +7,6 @@
     <b>Actian VectorAI DB</b>
 </p>
 
-
 # Actian VectorAI DB and Python Client (BETA)
 
 The Beta release of the Actian VectorAI DB and Python client.
@@ -18,8 +17,8 @@ This is a preview release. Please review the [Known Issues](#-known-issues) sect
 
 ### Beta Supported Platforms
 
-* The VectorAI DB Docker image is currently supported only on Linux/amd64 (x86_64).
-* The Python client package is supported on all major platforms (Windows, macOS, and Linux).
+- The VectorAI DB Docker image is currently supported only on Linux/amd64 (x86_64).
+- The Python client package is supported on all major platforms (Windows, macOS, and Linux).
 
 ## Features
 
@@ -31,6 +30,8 @@ This is a preview release. Please review the [Known Issues](#-known-issues) sect
 - 🎯 **gRPC transport** - High-performance communication
 
 ## 📥 Docker Container Installation
+
+(If you don't have the .tar image, see the Dockerhub version below.)
 
 Load the container archive into your container environment
 
@@ -56,18 +57,44 @@ To deploy the container using docker compose, create a `docker-compose.yml` file
 
 ```yaml
 services:
-    vectoraidb:
-       image: localhost/actian/vectoraidb:1.0b
-       container_name: vectoraidb
-       ports:
-         - "50051:50051"
-       volumes:
-         - ./data:/data
-       restart: unless-stopped
-       stop_grace_period: 2m
+  vectoraidb:
+    image: localhost/actian/vectoraidb:1.0b
+    container_name: vectoraidb
+    ports:
+      - "50051:50051"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+    stop_grace_period: 2m
 ```
 
 _Note: Collections and logs will be persisted under the mounted /data directory_
+
+### Pulling from Dockerhub
+
+1. Make sure you have [Docker](https://docs.docker.com/get-docker/) installed.
+
+2. Clone this repository
+
+3. Start the database:
+
+```bash
+   docker compose up
+```
+
+Or run in the background:
+
+```bash
+   docker compose up -d
+```
+
+4. The database will be available at `localhost:50051`.
+
+5. To stop the container:
+
+```bash
+   docker compose down
+```
 
 ### Examining Container Logs
 
@@ -84,7 +111,7 @@ You can access the server logs in two ways:
 pip install actiancortex-0.1.0b1-py3-none-any.whl
 ```
 
-___Detailed API documentation can be found under [docs/api.md](./docs/api.md)___
+**_Detailed API documentation can be found under [docs/api.md](./docs/api.md)_**
 
 ## 🚀 Quick Start
 
@@ -97,17 +124,17 @@ with CortexClient("localhost:50051") as client:
     # Health check
     version, uptime = client.health_check()
     print(f"Connected to {version}")
-    
+
     # Create collection
     client.create_collection(
         name="products",
         dimension=128,
         distance_metric=DistanceMetric.COSINE,
     )
-    
+
     # Insert vectors
     client.upsert("products", id=0, vector=[0.1]*128, payload={"name": "Product A"})
-    
+
     # Batch insert
     client.batch_upsert(
         "products",
@@ -115,12 +142,12 @@ with CortexClient("localhost:50051") as client:
         vectors=[[0.2]*128, [0.3]*128, [0.4]*128],
         payloads=[{"name": f"Product {i}"} for i in [1, 2, 3]],
     )
-    
+
     # Search
     results = client.search("products", query=[0.1]*128, top_k=5)
     for r in results:
         print(f"ID: {r.id}, Score: {r.score}")
-    
+
     # Cleanup
     client.delete_collection("products")
 ```
@@ -146,43 +173,43 @@ asyncio.run(main())
 
 ### Collection Management
 
-| Method | Description |
-|--------|-------------|
-| `create_collection(name, dimension, ...)` | Create new collection |
-| `delete_collection(name)` | Delete collection |
-| `has_collection(name)` | Check if exists |
-| `collection_exists(name)` | Alias for has_collection |
-| `recreate_collection(name, dimension, ...)` | Delete and recreate |
-| `open_collection(name)` | Open for operations |
-| `close_collection(name)` | Close collection |
+| Method                                      | Description              |
+| ------------------------------------------- | ------------------------ |
+| `create_collection(name, dimension, ...)`   | Create new collection    |
+| `delete_collection(name)`                   | Delete collection        |
+| `has_collection(name)`                      | Check if exists          |
+| `collection_exists(name)`                   | Alias for has_collection |
+| `recreate_collection(name, dimension, ...)` | Delete and recreate      |
+| `open_collection(name)`                     | Open for operations      |
+| `close_collection(name)`                    | Close collection         |
 
 ### Vector Operations
 
-| Method | Description |
-|--------|-------------|
-| `upsert(collection, id, vector, payload)` | Insert/update single vector |
-| `batch_upsert(collection, ids, vectors, payloads)` | Batch insert |
-| `get(collection, id)` | Get vector by ID |
-| `get_many(collection, ids)` | Get multiple vectors |
-| `retrieve(collection, ids)` | Alias for get_many |
-| `delete(collection, id)` | Delete vector |
-| `count(collection)` | Get vector count |
-| `scroll(collection, limit, cursor)` | Paginate through vectors |
+| Method                                             | Description                 |
+| -------------------------------------------------- | --------------------------- |
+| `upsert(collection, id, vector, payload)`          | Insert/update single vector |
+| `batch_upsert(collection, ids, vectors, payloads)` | Batch insert                |
+| `get(collection, id)`                              | Get vector by ID            |
+| `get_many(collection, ids)`                        | Get multiple vectors        |
+| `retrieve(collection, ids)`                        | Alias for get_many          |
+| `delete(collection, id)`                           | Delete vector               |
+| `count(collection)`                                | Get vector count            |
+| `scroll(collection, limit, cursor)`                | Paginate through vectors    |
 
 ### Search Operations
 
-| Method | Description |
-|--------|-------------|
-| `search(collection, query, top_k)` | K-NN search |
+| Method                                              | Description     |
+| --------------------------------------------------- | --------------- |
+| `search(collection, query, top_k)`                  | K-NN search     |
 | `search_filtered(collection, query, filter, top_k)` | Filtered search |
 
 ### Maintenance
 
-| Method | Description |
-|--------|-------------|
-| `flush(collection)` | Flush to disk |
-| `get_stats(collection)` | Get statistics |
-| `health_check()` | Check server health |
+| Method                  | Description         |
+| ----------------------- | ------------------- |
+| `flush(collection)`     | Flush to disk       |
+| `get_stats(collection)` | Get statistics      |
+| `health_check()`        | Check server health |
 
 ## 🔍 Filter DSL
 
@@ -250,13 +277,14 @@ client.create_collection(
 
 - `grpcio>=1.68.1` - gRPC transport
 - `protobuf>=5.29.2` - Protocol buffers
-- `numpy>=2.2.1` - Vector operations  
+- `numpy>=2.2.1` - Vector operations
 - `pydantic>=2.10.4` - Data validation
 
 ## 🐞 Known Issues
-* CRTX-202: Closing or deleting collections while read/write operations are in progress is not supported.
-* CRTX-232: scroll API uses the term cursor to indicate the offset.
-* CRTX-233: get_many API does not return the vector ids.
+
+- CRTX-202: Closing or deleting collections while read/write operations are in progress is not supported.
+- CRTX-232: scroll API uses the term cursor to indicate the offset.
+- CRTX-233: get_many API does not return the vector ids.
 
 ## 📄 License
 
