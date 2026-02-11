@@ -1,4 +1,4 @@
-# Actian Cortex Python Client API Reference
+# Actian VectorAI DB Python client API reference
 
 <p align="center">
   <img src="https://img.shields.io/badge/Version-0.1.0--beta-blue" alt="Version">
@@ -31,22 +31,24 @@
 
 ---
 
-## Beta Notice
+## Requirements
 
-Notice: This is a preview release. Please review the Known Issues in README.md before deploying.
+- Python 3.10+
+- numpy 2.2+
+- grpcio 1.68+
+- pydantic 2.10+
 
 ## Installation
 
 ```bash
 pip install actiancortex-0.1.0b1-py3-none-any.whl
 ```
-**Requirements:** Python 3.10+, numpy 2.2+, grpcio 1.68+, pydantic 2.10+
 
 ---
 
-## Quick Start
+## Quickstart
 
-### Sync Client
+### Sync client
 
 ```python
 from cortex import CortexClient, DistanceMetric
@@ -98,7 +100,7 @@ with CortexClient("localhost:50051") as client:
     client.delete_collection("products")
 ```
 
-### Async Client
+### Async client
 
 ```python
 import asyncio
@@ -122,9 +124,9 @@ asyncio.run(main())
 
 ---
 
-## Client Initialization
+## Initialize client
 
-### CortexClient (Sync)
+### CortexClient (sync)
 
 ```python
 from cortex import CortexClient
@@ -140,7 +142,7 @@ client = CortexClient(
 )
 ```
 
-### AsyncCortexClient (Async)
+### AsyncCortexClient (async)
 
 ```python
 from cortex import AsyncCortexClient
@@ -158,13 +160,13 @@ client = AsyncCortexClient(
 
 ---
 
-## API Reference
+## API reference
 
 ### Connection
 
 #### `connect()`
 
-Establish connection to the Cortex server.
+Establish connection to the VectorAI DB server.
 
 ```python
 client.connect()
@@ -182,7 +184,7 @@ client.connect()
 
 #### `close()`
 
-Close connection and cleanup resources.
+Close connection and clean up resources.
 
 ```python
 client.close()
@@ -226,7 +228,7 @@ Version: VDSS 1.0.0 / VDE 1.0.0, Uptime: 0s
 
 ---
 
-### Collection Management
+### Collection management
 
 #### `create_collection()`
 
@@ -429,7 +431,7 @@ info = client.describe_collection(collection_name="products")
 
 ---
 
-### Vector Operations
+### Vector 0perations
 
 #### `upsert()`
 
@@ -593,7 +595,7 @@ client.batch_delete(collection_name="products", ids=[1, 2, 3])
 
 ---
 
-### Search Operations
+### Search operations
 
 #### `search()`
 
@@ -633,7 +635,7 @@ id=2, score=1.0000, payload={'i': 2}
 
 ---
 
-#### `search()` with Filter
+#### `search()` with filter
 
 Apply payload filters during search.
 
@@ -692,7 +694,7 @@ results = client.search_filtered(
 
 ---
 
-### Query & Scroll
+### Query and scroll
 
 #### `count()`
 
@@ -817,7 +819,7 @@ Found 3 records
 
 ---
 
-### Statistics & Monitoring
+### Statistics and monitoring
 
 #### `get_stats()`
 
@@ -927,8 +929,6 @@ client.load_snapshot(collection_name="products")
 
 ## Filter DSL
 
-### Overview
-
 The Filter DSL provides a type-safe way to build filter expressions.
 
 ```python
@@ -954,7 +954,7 @@ from cortex.filters import Filter, Field  # Alternative import
 | `Field("x").is_null()` | `{"x": null}` | Is null |
 | `Field("x").is_not_null()` | `{"x": {"$ne": null}}` | Is not null |
 
-### Filter Methods
+### Filter methods
 
 | Method | Description |
 |--------|-------------|
@@ -966,7 +966,7 @@ from cortex.filters import Filter, Field  # Alternative import
 | `copy()` | Create an independent copy of the filter |
 | `clear()` | Remove all conditions from the filter |
 
-### Utility Features
+### Utility features
 
 ```python
 # String representation for debugging
@@ -990,7 +990,7 @@ f2.must(Field("y").eq(2))  # Original unchanged
 filter.clear()
 ```
 
-### Combining Filters
+### Combining filters
 
 #### AND (must)
 
@@ -1031,9 +1031,9 @@ filter = (
 # JSON: {"$and": [{"category": "electronics"}, {"discontinued": {"$ne": true}}]}
 ```
 
-### Using Filters
+### Using filters
 
-#### With Filter Object
+#### With filter object
 
 ```python
 from cortex.filters import Filter, Field
@@ -1055,7 +1055,7 @@ for r in results:
     print(f"ID: {r.id}, Score: {r.score}, Payload: {r.payload}")
 ```
 
-#### With JSON String
+#### With JSON string
 
 ```python
 # Alternative: pass JSON string directly
@@ -1067,7 +1067,7 @@ results = await client.search(
 )
 ```
 
-### Complex Examples
+### Examples
 
 ```python
 # Electronics under $100, not discontinued
@@ -1101,7 +1101,7 @@ results = client.search(
 
 ---
 
-## Models Reference
+## Models reference
 
 ### SearchResult
 
@@ -1200,7 +1200,7 @@ class DistanceMetric(Enum):
 
 ---
 
-## Error Handling
+## Error handling
 
 ```python
 from cortex import CortexError
@@ -1223,7 +1223,7 @@ class CortexError(Exception):
 
 ---
 
-## Async Client
+## Async client
 
 The async client provides the same API with `async/await` syntax.
 
@@ -1244,7 +1244,7 @@ async def main():
 asyncio.run(main())
 ```
 
-### High-Throughput Ingestion
+### High-throughput ingestion
 
 For high-throughput ingestion, use `batch_upsert()` instead of individual `upsert()` calls:
 
@@ -1265,9 +1265,9 @@ async with AsyncCortexClient("localhost:50051") as client:
 
 ---
 
-## Best Practices
+## Best practices
 
-### 1. Use Context Managers
+### Use context managers
 
 ```python
 # Good - automatic cleanup
@@ -1279,7 +1279,7 @@ async with AsyncCortexClient("localhost:50051") as client:
     ...
 ```
 
-### 2. Batch Operations
+### Batch operations
 
 ```python
 # Good - batch insert
@@ -1290,7 +1290,7 @@ for i, v in enumerate(vectors):
     client.upsert("collection", id=i, vector=v)  # Slow!
 ```
 
-### 3. Use Async for High Throughput
+### Use async for high throughput
 
 ```python
 # For high-throughput scenarios, use async client with batch_upsert
@@ -1298,7 +1298,7 @@ async with AsyncCortexClient("localhost:50051") as client:
     await client.batch_upsert("collection", ids, vectors, payloads)
 ```
 
-### 4. Normalize Vectors for COSINE
+### Normalize vectors for COSINE
 
 ```python
 import numpy as np
@@ -1311,7 +1311,7 @@ vector = normalize(np.array([0.1, 0.2, 0.3]))
 client.upsert("collection", id=0, vector=vector.tolist())
 ```
 
-### 5. Filter Early
+### Filter early
 
 ```python
 # Good - filter in search
@@ -1325,9 +1325,9 @@ filtered = [r for r in results if r.payload["category"] == "electronics"]
 
 ---
 
-## Complete Method Reference
+## Complete method reference
 
-### Implemented Methods (25)
+### Implemented methods (25)
 
 | Category | Method | Description |
 |----------|--------|-------------|
@@ -1362,14 +1362,14 @@ filtered = [r for r in results if r.payload["category"] == "electronics"]
 
 ---
 
-## Server Limitations & Not Yet Available
+## Server limitations
 
-The following methods are defined in the client API but **require server-side implementation**. Calling these methods will raise `NotImplementedError`.
+The following methods are defined in the client API but *require server-side implementation*. Calling these methods will raise `NotImplementedError`.
 
 > [!CAUTION]
 > These methods are part of the client interface for API parity with Qdrant/Milvus but are not yet functional.
 
-### Maintenance Operations (Server Error -1)
+### Maintenance operations (Server Error -1)
 
 | Method | Status | Notes |
 |--------|--------|-------|
@@ -1377,7 +1377,7 @@ The following methods are defined in the client API but **require server-side im
 | `compact()` | ⚠️ Server Error | Alias for optimize |
 | `rebuild_index()` | ⚠️ Server Error | RPC exists, server returns -1 |
 
-### Payload Operations (Not Implemented)
+### Payload operations (not yet implemented)
 
 | Method | Status |
 |--------|--------|
@@ -1385,7 +1385,7 @@ The following methods are defined in the client API but **require server-side im
 | `delete_payload()` | ❌ NotImplementedError |
 | `clear_payload()` | ❌ NotImplementedError |
 
-### Index Operations (Not Implemented)
+### Index operations (not yet implemented)
 
 | Method | Status |
 |--------|--------|
@@ -1396,7 +1396,7 @@ The following methods are defined in the client API but **require server-side im
 | `list_indexes()` | ❌ NotImplementedError |
 | `describe_index()` | ❌ NotImplementedError |
 
-### Snapshot Operations (Extended - Not Implemented)
+### Snapshot operations (Extended - not yet implemented)
 
 | Method | Status | Notes |
 |--------|--------|-------|
@@ -1407,7 +1407,7 @@ The following methods are defined in the client API but **require server-side im
 | `delete_snapshot()` | ❌ NotImplementedError | Extended API |
 | `recover_snapshot()` | ❌ NotImplementedError | Extended API |
 
-### Alias Operations (Not Implemented)
+### Alias operations (not yet implemented)
 
 | Method | Status |
 |--------|--------|
@@ -1417,7 +1417,7 @@ The following methods are defined in the client API but **require server-side im
 | `list_aliases()` | ❌ NotImplementedError |
 | `describe_alias()` | ❌ NotImplementedError |
 
-### Partition Operations (Not Implemented)
+### Partition operations (not yet implemented)
 
 | Method | Status |
 |--------|--------|
@@ -1428,7 +1428,7 @@ The following methods are defined in the client API but **require server-side im
 | `load_partitions()` | ❌ NotImplementedError |
 | `release_partitions()` | ❌ NotImplementedError |
 
-### Database Operations (Not Implemented)
+### Database operations (not yet implemented)
 
 | Method | Status |
 |--------|--------|
@@ -1438,7 +1438,7 @@ The following methods are defined in the client API but **require server-side im
 | `use_database()` | ❌ NotImplementedError |
 | `describe_database()` | ❌ NotImplementedError |
 
-### User & Role Management (Not Implemented)
+### User and role management (not yet implemented)
 
 | Method | Status |
 |--------|--------|
@@ -1456,7 +1456,7 @@ The following methods are defined in the client API but **require server-side im
 | `grant_privilege()` | ❌ NotImplementedError |
 | `revoke_privilege()` | ❌ NotImplementedError |
 
-### Advanced Search & Cluster (Not Implemented)
+### Advanced search and cluster (not yet implemented)
 
 | Method | Status |
 |--------|--------|
@@ -1465,4 +1465,4 @@ The following methods are defined in the client API but **require server-side im
 
 ---
 
-**© 2025 Actian Corporation. All rights reserved.**
+**© 2026 Actian Corporation. All rights reserved.**

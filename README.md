@@ -7,15 +7,11 @@
     <b>Actian VectorAI DB</b>
 </p>
 
-# Actian VectorAI DB and Python Client (BETA)
+# Actian VectorAI DB and Python client
 
-The Beta release of the Actian VectorAI DB and Python client.
+The Actian VectorAI DB and Python client. Please review the [Known Issues](#-known-issues) section before deploying.
 
-## Beta Notice
-
-This is a preview release. Please review the [Known Issues](#-known-issues) section before deploying.
-
-### Beta Supported Platforms
+### Supported platforms
 
 - The VectorAI DB Docker image is currently supported only on Linux/amd64 (x86_64).
 - The Python client package is supported on all major platforms (Windows, macOS, and Linux).
@@ -29,31 +25,31 @@ This is a preview release. Please review the [Known Issues](#-known-issues) sect
 - 📦 **Pydantic models** - Type hints and validation throughout
 - 🎯 **gRPC transport** - High-performance communication
 
-## 📥 Docker Container Installation
+## 📥 Docker container installation
 
-(If you don't have the .tar image, see the Dockerhub version below.)
+If you don't have the .tar image, see the DockerHub version below.
 
-Load the container archive into your container environment
+Load the container archive into your container environment:
 
 ```bash
 docker image load -i Actian_VectorAI_DB_Beta.tar
 ```
 
-### Container Ports and Volumes
+### Container ports and volumes
 
 The container exposes port `50051` and stores its logs and persisted collections in the `/data` directory, which you should map to a host directory to persist data outside the container.
 
-### Deploy Container Using Docker Run
+### Deploy container with Docker run
 
-To deploy the container using docker run
+To deploy the container using `docker run`:
 
 ```bash
 docker run -d --name vectoraidb -v ./data:/data -p 50051:50051 localhost/actian/vectoraidb:1.0b
 ```
 
-### Deploy Container Using Docker Compose
+### Deploy container with Docker compose
 
-To deploy the container using docker compose, create a `docker-compose.yml` file with this service definition and start it with `docker compose up`
+To deploy the container using `docker compose`, create a `docker-compose.yml` file with this service definition and start it with `docker compose up`.
 
 ```yaml
 services:
@@ -68,13 +64,13 @@ services:
     stop_grace_period: 2m
 ```
 
-_Note: Collections and logs will be persisted under the mounted /data directory_
+_Note: Collections and logs are persisted under the mounted /data directory_
 
-### Pulling from Dockerhub
+### Pull from DockerHub
 
 1. Make sure you have [Docker](https://docs.docker.com/get-docker/) installed.
 
-2. Clone this repository
+2. Clone this repository.
 
 3. Start the database:
 
@@ -82,21 +78,21 @@ _Note: Collections and logs will be persisted under the mounted /data directory_
    docker compose up
 ```
 
-Or run in the background:
+   Or run in the background:
 
 ```bash
    docker compose up -d
 ```
 
-4. The database will be available at `localhost:50051`.
+  The database will be available at `localhost:50051`.
 
-5. To stop the container:
+4. To stop the container:
 
 ```bash
    docker compose down
 ```
 
-### Examining Container Logs
+### Examine container logs
 
 The VectorAI DB server writes useful informational messages and errors to its log. These logs are often the best place to start when diagnosing failed requests or unexpected behavior.
 
@@ -105,17 +101,21 @@ You can access the server logs in two ways:
 - Use `docker logs <container-name>` to stream or inspect the container logs directly.
 - Read the log file at `/data/vde.log` from the host directory you mapped to `/data` when starting the container.
 
-## 📥 Python Client Installation
+## 📥 Install Python client
+
+Install the Python client with pip:
 
 ```bash
 pip install actiancortex-0.1.0b1-py3-none-any.whl
 ```
 
-**_Detailed API documentation can be found under [docs/api.md](./docs/api.md)_**
+**_For detailed API documentation, see [docs/api.md](./docs/api.md)._**
 
-## 🚀 Quick Start
+## 🚀 Quickstart
 
-### Sync Client
+Sync client and async client quickstarts are available.
+
+### Sync client
 
 ```python
 from cortex import CortexClient, DistanceMetric
@@ -152,7 +152,7 @@ with CortexClient("localhost:50051") as client:
     client.delete_collection("products")
 ```
 
-### Async Client
+### Async client
 
 ```python
 import asyncio
@@ -171,7 +171,7 @@ asyncio.run(main())
 
 ## 📚 Core API
 
-### Collection Management
+### Collection management
 
 | Method                                      | Description              |
 | ------------------------------------------- | ------------------------ |
@@ -183,7 +183,7 @@ asyncio.run(main())
 | `open_collection(name)`                     | Open for operations      |
 | `close_collection(name)`                    | Close collection         |
 
-### Vector Operations
+### Vector operations
 
 | Method                                             | Description                 |
 | -------------------------------------------------- | --------------------------- |
@@ -196,7 +196,7 @@ asyncio.run(main())
 | `count(collection)`                                | Get vector count            |
 | `scroll(collection, limit, cursor)`                | Paginate through vectors    |
 
-### Search Operations
+### Search operations
 
 | Method                                              | Description     |
 | --------------------------------------------------- | --------------- |
@@ -255,7 +255,7 @@ Cortex uses persistent storage as the default backend. This provides:
 
 ## 🔧 Configuration
 
-### HNSW Parameters
+### HNSW parameters
 
 ```python
 client.create_collection(
@@ -267,7 +267,7 @@ client.create_collection(
 )
 ```
 
-### Distance Metrics
+### Distance metrics
 
 - `COSINE` - Cosine similarity (default, recommended for normalized vectors)
 - `EUCLIDEAN` - L2 distance
@@ -280,11 +280,11 @@ client.create_collection(
 - `numpy>=2.2.1` - Vector operations
 - `pydantic>=2.10.4` - Data validation
 
-## 🐞 Known Issues
+## 🐞 Known issues
 
 - CRTX-202: Closing or deleting collections while read/write operations are in progress is not supported.
 - CRTX-232: scroll API uses the term cursor to indicate the offset.
-- CRTX-233: get_many API does not return the vector ids.
+- CRTX-233: get_many API does not return the vector IDs.
 
 ## 📄 License
 
