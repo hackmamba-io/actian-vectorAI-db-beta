@@ -99,6 +99,28 @@ You can access the server logs in two ways:
 - Use `docker logs <container-name>` to stream or inspect the container logs directly.
 - Read the log file at `/data/vde.log` from the host directory you mapped to `/data` when starting the container.
 
+## 📥 Python environment setup
+
+Here's how to create and activate a virtual environment:
+
+**Linux/macOS:**
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+**Windows (Command Prompt):**
+```cmd
+python -m venv .venv
+.venv\Scripts\activate.bat
+```
+
+**Windows (PowerShell):**
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+```
+
 ## 📥 Install Python client
 
 Install the Python client with pip:
