@@ -13,10 +13,16 @@ Usage:
 
 """
 
+
 import sys
 import ast
 import numpy as np
+import os
 from cortex import CortexClient, DistanceMetric
+
+# Paths
+script_dir = os.path.dirname(os.path.abspath(__file__))
+vectors_path = os.path.join(script_dir, "vectors", "moby_vectors1.txt")
 
 # Configuration
 SERVER = sys.argv[1] if len(sys.argv) > 1 else "localhost:50051"
@@ -57,7 +63,7 @@ def main():
             print(f"   ✓ Collection created ")
 
         # Start inserting vectors.
-        with open("./examples/vectors/moby_vectors1.txt", 'r', encoding='utf-8') as f:
+        with open(vectors_path, 'r', encoding='utf-8') as f:
             count = client.count(COLLECTION) + 1
             for line in f:
                 vector_data = {
