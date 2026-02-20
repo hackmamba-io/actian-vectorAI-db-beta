@@ -77,15 +77,16 @@ To deploy the container using `docker compose`, create a `docker-compose.yml` fi
 
 ```yaml
 services:
-  vectoraidb:
-    image: localhost/actian/vectoraidb:1.0b
-    container_name: vectoraidb
-    ports:
-      - "50051:50051"
-    volumes:
-      - ./data:/data
-    restart: unless-stopped
-    stop_grace_period: 2m
+    vectoraidb:
+       image: localhost/actian/vectoraidb:1.0b
+       #platform: linux/amd64   # Uncomment on macOS
+       container_name: vectoraidb
+       ports:
+         - "50051:50051"
+       volumes:
+         - ./data:/data
+       restart: unless-stopped
+       stop_grace_period: 2m
 ```
 
 _Note: Collections and logs are persisted under the mounted /data directory_
