@@ -103,7 +103,7 @@ Pick a model, embed your data, store the vectors in VectorAI DB. All models belo
 
 **Step 6:** Run `pip install ./actiancortex-0.1.0b1-py3-none-any.whl` to install the VectorAI DB Python client from the bundled wheel file
 
-**Step 7:** Validate by running `PYTHONPATH=. python examples/quick-start.py`
+**Step 7:** Validate by running `PYTHONPATH=. python examples/quick_start.py`
 
 ## 📥 Docker container installation – with the .tar image file (not included in this repository)
 
