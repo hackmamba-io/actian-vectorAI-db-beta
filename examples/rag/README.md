@@ -170,9 +170,12 @@ results = client.search(COLLECTION, query_embedding, top_k=3)
 ### 5. Context Retrieval & Answer Generation
 
 ```python
-context = get_retrieved_chunks(results)
-answer = generate_answer(query, context)
-# Uses LLM to generate answer from retrieved context
+context_pieces = []
+for result in results:
+    _, payload = client.get(COLLECTION, result.id)
+    context_pieces.append(payload["text"])
+context = "\n\n".join(context_pieces)
+answer = generate_answer_local(query, context)  # or generate_answer_openai()
 ```
 
 ## 💡 Real-World Applications

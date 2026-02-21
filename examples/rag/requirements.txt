@@ -1,5 +1,5 @@
 # Requirements for RAG Example
-# Install with: pip install -r examples/requirements_rag.txt
+# Install with: pip install -r examples/rag/requirements.txt
 
 # Core embedding model (required)
 sentence-transformers>=2.2.0

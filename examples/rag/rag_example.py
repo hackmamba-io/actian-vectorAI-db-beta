@@ -23,13 +23,13 @@ Requirements:
 
 Usage:
     # With OpenAI (requires OPENAI_API_KEY env variable)
-    python examples/rag_example.py
+    python examples/rag/rag_example.py
 
     # With local LLM (no API key needed)
-    python examples/rag_example.py --local
+    python examples/rag/rag_example.py --local
 
     # Custom server address
-    python examples/rag_example.py --server localhost:50051
+    python examples/rag/rag_example.py --server localhost:50051
 """
 
 import sys
@@ -103,65 +103,44 @@ requirements. The database provides persistent storage with transactional safety
 def chunk_text(text: str, chunk_size: int = 200, overlap: int = 50) -> List[Dict[str, Any]]:
     """
     Split text into overlapping chunks for better context preservation.
-    
+
     Args:
         text: The text to chunk
         chunk_size: Approximate size of each chunk in characters
         overlap: Number of characters to overlap between chunks
-        
+
     Returns:
         List of chunks with metadata
     """
-    # Split into paragraphs first
     paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
-    
+    full_text = "\n\n".join(paragraphs)
+
     chunks = []
-    current_chunk = ""
+    start = 0
     chunk_id = 0
-    
-    for para in paragraphs:
-        # If paragraph is larger than chunk_size, split it
-        if len(para) > chunk_size:
-            words = para.split()
-            temp_chunk = ""
-            
-            for word in words:
-                if len(temp_chunk) + len(word) + 1 < chunk_size:
-                    temp_chunk += word + " "
-                else:
-                    if temp_chunk:
-                        chunks.append({
-                            "chunk_id": chunk_id,
-                            "text": temp_chunk.strip(),
-                            "char_count": len(temp_chunk)
-                        })
-                        chunk_id += 1
-                    temp_chunk = word + " "
-            
-            if temp_chunk:
-                current_chunk = temp_chunk
+
+    while start < len(full_text):
+        end = start + chunk_size
+
+        if end < len(full_text):
+            # Try to break at a word boundary
+            space_idx = full_text.rfind(' ', start, end)
+            if space_idx > start:
+                end = space_idx
         else:
-            # Add paragraph to current chunk
-            if len(current_chunk) + len(para) + 1 < chunk_size:
-                current_chunk += para + "\n\n"
-            else:
-                if current_chunk:
-                    chunks.append({
-                        "chunk_id": chunk_id,
-                        "text": current_chunk.strip(),
-                        "char_count": len(current_chunk)
-                    })
-                    chunk_id += 1
-                current_chunk = para + "\n\n"
-    
-    # Add remaining chunk
-    if current_chunk:
-        chunks.append({
-            "chunk_id": chunk_id,
-            "text": current_chunk.strip(),
-            "char_count": len(current_chunk)
-        })
-    
+            end = len(full_text)
+
+        chunk_text_str = full_text[start:end].strip()
+        if chunk_text_str:
+            chunks.append({
+                "chunk_id": chunk_id,
+                "text": chunk_text_str,
+                "char_count": len(chunk_text_str),
+            })
+            chunk_id += 1
+
+        start = end - overlap if end < len(full_text) else len(full_text)
+
     return chunks
 
 
@@ -190,7 +169,7 @@ def generate_answer_openai(query: str, context: str, api_key: str) -> str:
         client = openai.OpenAI(api_key=api_key)
         
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant that answers questions based on the provided context. Be concise and accurate."},
                 {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query}\n\nAnswer based on the context above:"}
@@ -292,9 +271,10 @@ def main():
             results = client.search(COLLECTION, query_embedding, top_k=3)
             
             print(f"     Found {len(results)} relevant chunks:")
+            result_ids = [result.id for result in results]
+            fetched = client.get_many(COLLECTION, result_ids)
             context_pieces = []
-            for j, result in enumerate(results, 1):
-                _, payload = client.get(COLLECTION, result.id)
+            for j, (result, (_, payload)) in enumerate(zip(results, fetched), 1):
                 context_pieces.append(payload["text"])
                 print(f"       • Chunk {j} (similarity: {result.score:.4f})")
             

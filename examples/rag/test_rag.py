@@ -58,10 +58,10 @@ def check_docker() -> Tuple[bool, str]:
 def check_python_version() -> Tuple[bool, str]:
     """Check Python version."""
     version = sys.version_info
-    if version.major == 3 and version.minor >= 8:
+    if version.major == 3 and version.minor >= 10:
         return True, f"Python {version.major}.{version.minor}.{version.micro}"
     else:
-        return False, f"Python {version.major}.{version.minor} (requires 3.8+)"
+        return False, f"Python {version.major}.{version.minor} (requires 3.10+)"
 
 
 def check_dependencies() -> Tuple[bool, str]:
@@ -105,7 +105,7 @@ def main():
     
     # Check 1: Python version
     passed, details = check_python_version()
-    print_check("Python version (3.8+)", passed, details)
+    print_check("Python version (3.10+)", passed, details)
     all_passed = all_passed and passed
     
     # Check 2: Docker and VectorAI DB

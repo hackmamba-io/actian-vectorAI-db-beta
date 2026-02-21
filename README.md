@@ -23,6 +23,26 @@ Actian VectorAI DB is a vector database — a specialized database for AI applic
 
 **About gRPC:** The database communicates over gRPC under the hood — you don't need to know anything about it. The Python client handles it for you. If you see gRPC in an error message, it's a connection issue, not a code issue.
 
+### What Can You Build?
+
+VectorAI DB is the storage-and-search layer. Pair it with an embedding model and you can build:
+
+- **RAG (Retrieval-Augmented Generation)** — Chunk documents, embed them, retrieve relevant chunks to ground an LLM. Model: `all-MiniLM-L6-v2` (384d, COSINE). See [examples/rag/](./examples/rag/).
+- **Semantic Search** — Index documents, products, or notes and search by meaning instead of keywords. Model: `all-MiniLM-L6-v2` (384d) or `all-mpnet-base-v2` (768d) for higher quality. See [examples/semantic_search.py](./examples/semantic_search.py).
+- **Recommendation Engine** — Embed item descriptions or user preferences, find similar items via nearest-neighbor search. Model: `all-MiniLM-L6-v2` (384d). Same API pattern as search.
+- **Image Similarity Search** — Embed images (and optionally text) with CLIP, search across modalities. Model: `openai/clip-vit-base-patch32` (512d).
+- **Code Search** — Embed code snippets and docstrings, search codebases by natural language. Model: `microsoft/codebert-base` (768d).
+
+### Popular Embedding Models
+
+Pick a model, embed your data, store the vectors in VectorAI DB. All models below are available on Hugging Face and installable via `pip install sentence-transformers` or `pip install transformers`.
+
+- [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) — 384d, fast general-purpose text embeddings (great default choice)
+- [sentence-transformers/all-mpnet-base-v2](https://huggingface.co/sentence-transformers/all-mpnet-base-v2) — 768d, higher quality text embeddings
+- [BAAI/bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) — 384d, strong quality-to-speed ratio
+- [openai/clip-vit-base-patch32](https://huggingface.co/openai/clip-vit-base-patch32) — 512d, multimodal (text + images)
+- [microsoft/codebert-base](https://huggingface.co/microsoft/codebert-base) — 768d, code understanding
+
 ### Supported platforms
 
 * The VectorAI DB Docker image is currently supported only on Linux/amd64 (x86_64).
