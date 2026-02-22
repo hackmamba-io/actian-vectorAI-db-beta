@@ -50,6 +50,7 @@ Pick a model, embed your data, store the vectors in VectorAI DB. All models belo
     * macOS support on Apple chipsets (M2/M3/M4) through Rosetta 2 and specifying linux/amd64 as platform. 
         * Install Rosetta 2 by running `softwareupdate --install-rosetta --agree-to-license`.
         * Add `--platform linux/amd64` to Docker commands.
+        * **Note:** M4 Apple Silicons might encounter a GRPC disconnection error without any container logs. In this case, disable Rosetta in Docker Desktop
 
 * The Python client package is supported on all major platforms (Windows, macOS, and Linux).
     * Python 3.10 or higher is required.
