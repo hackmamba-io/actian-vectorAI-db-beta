@@ -23,11 +23,20 @@ Actian VectorAI DB is a vector database — a specialized database for AI applic
 
 **About gRPC:** The database communicates over gRPC under the hood — you don't need to know anything about it. The Python client handles it for you. If you see gRPC in an error message, it's a connection issue, not a code issue.
 
+### How vector embeddings work
+
+Your data gets converted into arrays of numbers called **vectors** that capture the *meaning* of the original content. VectorAI DB stores and indexes these for fast semantic search.
+
+![Vector Embeddings](vector-embeddings.png)
+
 ### What Can You Build?
 
 VectorAI DB is the storage-and-search layer. Pair it with an embedding model and you can build:
 
 - **RAG (Retrieval-Augmented Generation)** — Chunk documents, embed them, retrieve relevant chunks to ground an LLM. Model: `all-MiniLM-L6-v2` (384d, COSINE). See [examples/rag/](./examples/rag/).
+
+![RAG Workflow](rag-workflow.png)
+
 - **Semantic Search** — Index documents, products, or notes and search by meaning instead of keywords. Model: `all-MiniLM-L6-v2` (384d) or `all-mpnet-base-v2` (768d) for higher quality. See [examples/semantic_search.py](./examples/semantic_search.py).
 - **Recommendation Engine** — Embed item descriptions or user preferences, find similar items via nearest-neighbor search. Model: `all-MiniLM-L6-v2` (384d). Same API pattern as search.
 - **Image Similarity Search** — Embed images (and optionally text) with CLIP, search across modalities. Model: `openai/clip-vit-base-patch32` (512d).
