@@ -310,4 +310,4 @@ You now understand how VectorAI DB integrates into AI applications! The same pat
 
 ---
 
-**Questions?** Open an issue or check the [main documentation](../README.md)
+**Questions?** Open an issue or check the [main documentation](../../README.md)
