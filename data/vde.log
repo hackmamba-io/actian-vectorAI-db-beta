@@ -1,0 +1,36 @@
+[2026-04-16 19:19:04.853] [vde] [info] Data store configure CACHE_SIZE_MB succeeded
+[2026-04-16 19:19:04.854] [vde] [info] Data store configure INI succeeded (/data/datastore.ini)
+[2026-04-16 19:19:05.492] [vde] [info] Data store initialization succeeded
+[2026-04-16 19:19:05.492] [vde] [info] VDE Engine initializing with work_dir: /data
+[2026-04-16 19:19:05.492] [vde] [info] [FlushManager] Started (check_interval=30s, min_threshold=100, max_interval=3600s)
+[2026-04-16 19:19:05.492] [vde] [info] VectorIndexRegistry and VectorRepositoryRegistry created
+[2026-04-16 19:21:48.348] [vde] [info] [VDEEngine::CreateCollection(unified)] Creating 'medical_knowledge' with 1 vector space(s)
+[2026-04-16 19:21:48.350] [vde] [info] [VDECollection::Init(unified)] name=medical_knowledge, num_vectors=1
+[2026-04-16 19:21:48.350] [vde] [info] [VDECollection::SaveMetadata] Saving metadata for collection 'medical_knowledge' to: /data/medical_knowledge/metadata.json
+[2026-04-16 19:21:48.352] [vde] [info] [VDECollection::SaveMetadata] Metadata saved to /data/medical_knowledge/metadata.json (storage_type=StorageType::BTRIEVE_FILE, index_driver_type=IndexDriverType::FAISS)
+[2026-04-16 19:21:48.379] [vde] [info] [PersistentIdMap::Open] File does not exist, creating: /data/medical_knowledge/segment_0/id_map.btr
+[2026-04-16 19:21:48.411] [vde] [info] [PersistentIdMap::CreateFileStore] id_map file created: /data/medical_knowledge/segment_0/id_map.btr
+[2026-04-16 19:21:48.411] [vde] [info] [PersistentIdMap::Open] Opened with 0 mappings, next_internal_id=0
+[2026-04-16 19:21:48.465] [vde] [info] [DenseBtrieveStore::Open] File does not exist, creating: /data/medical_knowledge/segment_0/vectors/_default/vectors.btr
+[2026-04-16 19:21:48.488] [vde] [info] [DenseBtrieveStore::CreateFile] Created file: /data/medical_knowledge/segment_0/vectors/_default/vectors.btr (dim=384, record_len=1552)
+[2026-04-16 19:21:48.488] [vde] [info] [DenseBtrieveStore::Open] Opened (dim=384, record_len=1552)
+[2026-04-16 19:21:48.506] [vde] [info] [SegmentStateStore::Open] File does not exist, creating: /data/medical_knowledge/segment_0/segment_state.btr
+[2026-04-16 19:21:48.521] [vde] [info] [SegmentStateStore::CreateFile] segment_state file created: /data/medical_knowledge/segment_0/segment_state.btr
+[2026-04-16 19:21:48.521] [vde] [info] [SegmentStateStore::Open] max_allocated_internal_id=0, schema_version=1, freshly_created=true
+[2026-04-16 19:21:48.522] [vde] [info] [VDECollection::Init(unified)] LocalShard initialized with 1 vector space(s)
+[2026-04-16 19:21:48.522] [vde] [info] [FlushManager] Registered collection 'medical_knowledge'
+[2026-04-16 19:21:48.522] [vde] [info] [VDEEngine::CreateCollection(unified)] Collection 'medical_knowledge' created successfully
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] === FIRST SEARCH - HNSW Parameters ===
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] Index ntotal: 5
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] Storage ntotal: 5
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] Query top_k: 3
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] Configured efSearch: 64
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] Request hnsw_ef override: 0
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] Effective efSearch for this call: 64
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] efConstruction: 200
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] max_level: 0
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] levels.size(): 5
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] entry_point: 4
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] M (neighbors at level 1): 32
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] Storage exists: true, own_fields: true
+[2026-04-16 19:29:52.024] [vde] [info] [FaissVectorIndexDriver::Search] =====================

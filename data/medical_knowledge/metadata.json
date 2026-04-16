@@ -1,0 +1,43 @@
+{
+  "dimension": 384,
+  "distance": 0,
+  "hnsw_config": {
+    "ef_construct": 200,
+    "ef_search": 64,
+    "m": 16
+  },
+  "index_driver_type": 0,
+  "name": "medical_knowledge",
+  "normalize_method": "L2",
+  "optimizers_config": {
+    "default_segment_number": 0,
+    "deleted_threshold": 0.2,
+    "flush_interval_sec": 5,
+    "indexing_threshold": 20000,
+    "min_interval_seconds": 60,
+    "pipeline_type": -1,
+    "source_type": -1,
+    "target_hnsw_ef_construction": -1,
+    "target_hnsw_ef_search": -1,
+    "target_hnsw_m": -1,
+    "target_type": -1,
+    "trigger_type": -1,
+    "vacuum_min_vector_number": 1000
+  },
+  "storage_type": 0,
+  "vectors": {
+    "": {
+      "dimension": 384,
+      "distance": 0,
+      "hnsw_config": {
+        "ef_construct": 200,
+        "ef_search": 64,
+        "m": 16
+      },
+      "index_algorithm": 2,
+      "is_sparse": false,
+      "storage_backend": 0,
+      "vector_storage": 0
+    }
+  }
+}
