@@ -121,7 +121,7 @@ source .venv/bin/activate
 pip install ./actian_vectorai-0.1.0b2-py3-none-any.whl
 ```
 
-**Step 5:** Validate by running `python examples/quick_start.py`
+**Step 5:** Validate by running `python examples/01_hello_world.py`
 
 ## 📥 Docker container installation — with the .tar image file (not included in this repository)
 
